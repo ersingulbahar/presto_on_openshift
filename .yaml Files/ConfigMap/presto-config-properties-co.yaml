@@ -1,0 +1,13 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: presto-config-properties-co
+  namespace: ersin-test
+  selfLink: /api/v1/namespaces/ersin-test/configmaps/presto-config-properties-co
+data:
+  config.properties: |- 
+    coordinator=true
+    node-scheduler.include-coordinator=false 
+    discovery-server.enabled=true
+    http-server.http.port=8080
+    discovery.uri=http://presto-ersin-test.apps.xxx.yyy.tgc:80
