@@ -1,0 +1,57 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: presto
+  namespace: ersin-test  
+labels:
+  deployment: presto
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: presto
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        deployment: presto
+    spec:
+      volumes:
+        - name: generic
+          persistentVolumeClaim:
+            claimName: generic
+        - name: empty1
+          emptyDir: {}
+        - name: presto-catalog-kafka
+          configMap:
+            name: presto-catalog-kafka
+            defaultMode: 711
+        - name: presto-catalog-kafka-table
+          configMap:
+            name: presto-catalog-kafka-table
+            defaultMode: 711 
+        - name: presto-config-properties-co
+          configMap:
+            name: presto-config-properties-co
+            defaultMode: 711
+      containers: 
+        - resources:
+            limits:
+              memory: 2Gi
+          name: presto
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: presto-catalog-kafka
+              mountPath: /usr/lib/presto/etc/catalog/kafka.properties
+              subPath: kafka.properties
+            - name: presto-catalog-kafka-table
+              mountPath: /usr/lib/presto/etc/kafka/turkcell.ersin_table.json
+              subPath: turkcell.ersin_table.json 
+            - name: presto-config-properties-co
+              mountPath: /usr/lib/presto/etc/config.properties
+              subPath: config.properties
+          image: >-
+            starburstdata/presto:latest
+          hostname: presto
