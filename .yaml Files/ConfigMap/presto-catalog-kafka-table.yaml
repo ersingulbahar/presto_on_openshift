@@ -1,0 +1,30 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: presto-catalog-kafka-table
+  namespace: ersin-test
+  selfLink: /api/v1/namespaces/ersin-test/configmaps/presto-catalog-kafka-table
+data:
+  my_schema.ersin_table.json: |
+    {
+    "tableName": "ersin_table",
+    "schemaName": "my_schema",
+    "topicName": "my_schema.ersin_table",
+    "message": {
+        "dataFormat": "json",
+        "fields": [
+            {
+                "name": "id",
+                "mapping": "id",
+                "type": "INTEGER"
+            },
+            {
+                "name": "name",
+                "mapping": "name",
+                "type": "TIMESTAMP",
+                "dataFormat": "custom-date-time",
+                "formatHint": "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+            }
+        ]
+    }
+    }
