@@ -1,0 +1,22 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: presto
+  namespace: ersin-test
+  annotations:
+    generated.by: ersingulbahar
+spec:
+  ports:
+    - name: 8061-tcp
+      protocol: TCP
+      port: 8061
+      targetPort: 8080
+  selector:
+    deployment: presto
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+status:
+  loadBalancer: {}
